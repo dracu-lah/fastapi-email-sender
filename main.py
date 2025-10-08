@@ -1,11 +1,21 @@
 from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from email.message import EmailMessage
 import smtplib
 import os
 import tempfile
 
 app = FastAPI(title="Email Sender API")
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins - change this in production!
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 @app.post("/send-email")
 async def send_email(
